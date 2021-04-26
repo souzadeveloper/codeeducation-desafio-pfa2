@@ -10,9 +10,7 @@ Primeiramente vamos cria uma Network de nome "desafio-pfa":
 docker network create desafio-pfa
 ```
 
-Para executar a aplicação, precisaremos criar um container para rodar o Mysql:
-
-Para criar o container utilizando a nossa Network execute:
+Para executar a aplicação, precisaremos criar um container para rodar o Mysql. Para criar o container utilizando a nossa Network execute:
 
 ```
 docker run -d --name mysql --network=desafio-pfa -e MYSQL_ROOT_PASSWORD=root -v "$(pwd)"/mysql:/var/lib/mysql mysql:5.7
