@@ -12,8 +12,9 @@ Para executar a aplicação, precisaremos criar um container para rodar o Mysql:
 
 Para criar o container utilizando a nossa Network execute:
 
+####
 ```
-#### docker run -d --name mysql --network=desafio-pfa -e MYSQL_ROOT_PASSWORD=root -v "$(pwd)"/mysql:/var/lib/mysql mysql:5.7
+docker run -d --name mysql --network=desafio-pfa -e MYSQL_ROOT_PASSWORD=root -v "$(pwd)"/mysql:/var/lib/mysql mysql:5.7
 ```
 
 Agora vamos subir o container com Node.js que contem a aplicação que gera a Listagem de Módulos do Curso Full Cycle 2.0, tambem na mesma Network para que exista comunição entre os nossos containers:
