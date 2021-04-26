@@ -1,7 +1,7 @@
 # codeeducation-desafio-pfa
 Projeto do Desafio do PFA usando Docker com Nginx/Node/Mysql.
 
-O Objetivo do Desafio é náo utilizar docker-compose.
+O Objetivo do Desafio é náo utilizar <b>docker-compose</b>.
 
 Primeiramente vamos cria uma Network de nome "desafio-pfa":
 
@@ -24,9 +24,9 @@ Para testar o Nginx acesse no Browser a URL abaixo:
 
 http://localhost:8080
 
-Se tudo correu bem você verá a nossa Listagem de Cursos!!! 🚀🚀🚀
+Se tudo correu bem você verá a nossa Listagem de Cursos!!!
 
-##Imagens geradas:
+### Imagens geradas:
 
 - [Imagem Node.js](https://hub.docker.com/repository/docker/souzadeveloper/desafio-pfa1-nodeapp)
 - [Imagem Ngingx](https://hub.docker.com/repository/docker/souzadeveloper/desafio-pfa1-nginx)
