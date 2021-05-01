@@ -1,0 +1,55 @@
+version: '3'
+
+services: 
+
+  mysql:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: mysql
+    restart: always
+    tty: true
+    volumes: 
+      - ./dbdata:/var/lib/mysql
+      - ./mysql:/docker-entrypoint-initdb.d
+    environment: 
+      - MYSQL_DATABASE=pfa
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3306:3306
+    networks: 
+      - pfa-network1
+
+  node:
+    build: 
+      context: node
+    container_name: node
+    entrypoint: dockerize -wait tcp://mysql:3306 -timeout 20s node ./src/index.js
+    tty: true
+    volumes:
+      - ./node:/home/node/app
+      - /home/node/app/node_modules
+    ports:
+      - 3000:3000
+    networks: 
+      - pfa-network1
+      - pfa-network2
+    depends_on: 
+      - mysql
+
+  nginx:
+    build: 
+      context: nginx
+    container_name: nginx  
+    entrypoint: dockerize -wait tcp://node:3000 -timeout 20s ./docker-entrypoint.sh nginx -g "daemon off;"
+    ports: 
+      - 8000:80
+    networks: 
+      - pfa-network2 
+    depends_on: 
+      - node     
+      
+networks: 
+  pfa-network1:
+    driver: bridge   
+  pfa-network2:
+    driver: bridge         

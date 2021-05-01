@@ -8,37 +8,21 @@ const port = 3000;
 const config = {
   host: 'mysql',
   user: 'root',
-  password: 'root'
+  password: 'root',
+  database: 'pfa'
 };
 
 const conn = mysql.createConnection(config);
 
 const query = promisify(conn.query).bind(conn);
 
-async function Init() {
-  
-  await query('CREATE DATABASE IF NOT EXISTS nodedb');
-  await query('use nodedb');
-
-  const rows = await query(`SHOW TABLES LIKE 'cursos'`);
-
-  if (rows.length == 0) {
-    await query('CREATE TABLE cursos (id int not null auto_increment, descricao varchar(255), primary key(id))');      
-  } else {
-    await query(`DELETE FROM cursos`);
-  }
-
-  await query(`INSERT INTO cursos (descricao) VALUES ('Docker')`);
-  await query(`INSERT INTO cursos (descricao) VALUES ('Fundamentos de Arquitetura de Software')`);
-  await query(`INSERT INTO cursos (descricao) VALUES ('RabbitMQ')`);
-  await query(`INSERT INTO cursos (descricao) VALUES ('Autenticação entre Microserviços')`);
-  await query(`INSERT INTO cursos (descricao) VALUES ('Apache Kafka')`);
-}
-
-Init();
-
 app.get('/', async (req, res) => {
-  let html = '<h1>Módulos Curso Full Cycle</h1>'
+
+  res.setHeader("Content-Type", "text/html; charset=iso-8859-1");
+
+  //res.charset = 'utf-8';
+
+  let html = '<h1>Módulos Curso Full Cycle 2.0</h1>'
   
   // Seleciona os Registros
   const rows = await query('SELECT * FROM cursos');

@@ -1,40 +1,21 @@
-# codeeducation-desafio-pfa1
+# codeeducation-desafio-pfa2
 
-Projeto do Desafio do PFA usando Docker com Nginx/Node/Mysql.
+Projeto do Desafio 2 do PFA usando Docker Compose com Nginx/Node/Mysql.
 
-O Objetivo do Desafio é náo utilizar <b>docker-compose</b>.
+### Descrição do Desafio:
 
-Primeiramente vamos cria uma Network de nome "desafio-pfa":
+Aproveite o desafio 1 que você criou no PFA, a aplicação com sua linguagem favorita, Nginx e MySQL para aplicar o Docker Compose.
 
-```
-docker network create desafio-pfa
-```
+Crie o docker-compose.yaml com 3 serviços, um para cada tecnologia. Você deverá configurar os seguintes pontos:
 
-Para executar a aplicação, precisaremos criar um container para rodar o Mysql. Para criar o container utilizando a nossa Network execute:
+- O serviço do MySQL não poderá ter um Dockerfile personalizado, é necessário usar diretamente a imagem oficial do MySQL e deverá existir um volume para persistir o banco de dados no projeto, o nome da pasta será dbdata. Deverá usar o entrypoint-initdb.d para já criar um banco e popular dados no banco de dados padrão.
 
-```
-docker run -d --name mysql --network=desafio-pfa -e MYSQL_ROOT_PASSWORD=root -v "$(pwd)"/mysql:/var/lib/mysql mysql:5.7
-```
+- O serviço da sua linguagem favorita deverá continuando a listar dados através da WEB vindo do MySQL. Antes do container iniciar ele deverá verificar se o MySQL já está pronto para conexão, sugerimos usar o Dockerize para fazer esta verificação.
 
-Agora vamos subir o container com Node.js que contem a aplicação que gera a Listagem de Módulos do Curso Full Cycle 2.0, tambem na mesma Network para que exista comunição entre os nossos containers:
+- O serviço do Nginx continuará sendo um proxy reverso para a sua aplicação da linguagem favorita e deverá expor a porta 8000 para acessar a aplicação no browser. Este serviço deverá iniciar somente quando o da sua aplicação da linguagem favorita for iniciado e deverá ser reiniciado automaticamente caso a aplicação da linguagem favorita não esteja rodando ainda.
 
-```
-docker run -d --name nodeapp -p 3000:3000 --network=desafio-pfa souzadeveloper/desafio-pfa1-nodeapp
-```
+- Os serviços do MySQL e da linguagem favorita devem ter uma rede compartilhada que o Nginx não enxergue e linguagem favorita e Nginx devem ter uma rede compartilhada que o MySQL não enxergue.
 
-Por último vamos subir um container com o Nginx, que será o responsável redirecionar as nossas chamadas para a porta 3000 que é onde está rodando a nossa Aplicação em Node.js:
+Para corrigir seu projeto rodaremos apenas o comando "docker-compose up", tudo já deve ser levantado e estar disponível ao fazer isto, teste bastante isto antes de enviar o desafio para correção.
 
-```
-docker run -d --name nginx -p 8080:80 --network=desafio-pfa souzadeveloper/desafio-pfa1-nginx
-```
-
-Para testar o Nginx acesse no Browser a URL abaixo:
-
-http://localhost:8080
-
-Se tudo correu bem você verá a nossa Listagem de Cursos!!!
-
-### Imagens geradas:
-
-- [Imagem Node.js](https://hub.docker.com/repository/docker/souzadeveloper/desafio-pfa1-nodeapp)
-- [Imagem Ngingx](https://hub.docker.com/repository/docker/souzadeveloper/desafio-pfa1-nginx)
+Divirtam-se e bom trabalho!
